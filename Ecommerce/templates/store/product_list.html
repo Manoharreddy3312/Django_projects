@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Products — FlipMart{% endblock %}
+{% block content %}
+<h1 class="h3 mb-3">Products</h1>
+<div class="row">
+  <div class="col-md-3 mb-3">
+    <div class="card shadow-sm">
+      <div class="card-header">Categories</div>
+      <ul class="list-group list-group-flush">
+        <a class="list-group-item list-group-item-action {% if not current_cat %}active{% endif %}" href="{% url 'store:product_list' %}{% if search_q %}?q={{ search_q|urlencode }}{% endif %}">All</a>
+        {% for c in categories %}
+        <a class="list-group-item list-group-item-action {% if current_cat == c.slug %}active{% endif %}" href="?category={{ c.slug }}{% if search_q %}&q={{ search_q|urlencode }}{% endif %}">{{ c.name }}</a>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="col-md-9">
+    <div class="row g-3">
+      {% for p in products %}
+      <div class="col-6 col-lg-4">
+        <div class="card h-100 shadow-sm">
+          {% if p.main_image %}
+          <img src="{{ p.main_image.url }}" class="card-img-top object-fit-cover" style="height:160px" alt="">
+          {% else %}
+          <img src="{% static 'img/no-image.svg' %}" class="card-img-top object-fit-cover bg-light" style="height:160px" alt="">
+          {% endif %}
+          <div class="card-body">
+            <h2 class="h6">{{ p.name }}</h2>
+            <p class="text-primary fw-bold mb-0">₹ {{ p.price }}</p>
+            <a class="stretched-link" href="{% url 'store:product_detail' p.slug %}"></a>
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <p>No products match your filters.</p>
+      {% endfor %}
+    </div>
+    {% if is_paginated %}
+    <nav class="mt-4">
+      <ul class="pagination">
+        {% if page_obj.has_previous %}
+        <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}&category={{ current_cat }}&q={{ search_q|urlencode }}">Prev</a></li>
+        {% endif %}
+        <li class="page-item disabled"><span class="page-link">Page {{ page_obj.number }}</span></li>
+        {% if page_obj.has_next %}
+        <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}&category={{ current_cat }}&q={{ search_q|urlencode }}">Next</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

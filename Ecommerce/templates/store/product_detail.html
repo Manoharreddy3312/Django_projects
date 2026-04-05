@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{{ product.name }} — FlipMart{% endblock %}
+{% block content %}
+<div class="row g-4">
+  <div class="col-md-6">
+    {% if product.main_image %}
+    <img src="{{ product.main_image.url }}" class="img-fluid rounded shadow" alt="{{ product.name }}">
+    {% else %}
+    <img src="{% static 'img/no-image.svg' %}" class="img-fluid rounded shadow bg-light" alt="{{ product.name }}">
+    {% endif %}
+    <div class="row g-2 mt-2">
+      {% for im in product.images.all %}
+      <div class="col-3"><img src="{{ im.image.url }}" class="img-thumbnail w-100" alt=""></div>
+      {% endfor %}
+    </div>
+  </div>
+  <div class="col-md-6">
+    <p class="text-muted small mb-1">{{ product.category.name }}</p>
+    <h1 class="h3">{{ product.name }}</h1>
+    <p class="h4 text-primary">₹ {{ product.price }}</p>
+    <p class="text-muted">Avg rating: {{ product.average_rating|floatformat:1 }} / 5</p>
+    <p>{{ product.description|linebreaks }}</p>
+    <div class="d-flex flex-wrap gap-2 align-items-center">
+      <label class="me-2">Qty</label>
+      <input type="number" class="form-control w-auto" id="pd-qty" value="1" min="1" max="{{ product.stock }}">
+      <button type="button" class="btn btn-warning" id="btn-add-cart" data-product-id="{{ product.id }}">Add to cart</button>
+      <button type="button" class="btn btn-outline-danger" id="btn-wish-toggle" data-product-id="{{ product.id }}">♡ Wishlist</button>
+    </div>
+    <p class="small text-muted mt-2">{{ product.stock }} in stock</p>
+  </div>
+</div>
+<hr class="my-5">
+<h2 class="h5">Reviews</h2>
+{% if user.is_authenticated %}
+<form id="review-form" class="mb-4">
+  {% csrf_token %}
+  <input type="hidden" name="product" value="{{ product.id }}">
+  <div class="row g-2">
+    <div class="col-md-2"><input class="form-control" name="rating" type="number" min="1" max="5" placeholder="1-5" required></div>
+    <div class="col-md-4"><input class="form-control" name="title" placeholder="Title"></div>
+    <div class="col-md-6"><input class="form-control" name="body" placeholder="Comment"></div>
+  </div>
+  <button type="submit" class="btn btn-primary btn-sm mt-2">Submit review</button>
+</form>
+{% endif %}
+<ul class="list-group">
+  {% for r in product.reviews.all %}
+  <li class="list-group-item">
+    <strong>{{ r.rating }}/5</strong> — {{ r.title }}
+    <span class="text-muted small">({{ r.user.email }})</span>
+    <div>{{ r.body }}</div>
+  </li>
+  {% empty %}
+  <li class="list-group-item">No reviews yet.</li>
+  {% endfor %}
+</ul>
+{% endblock %}
+{% block extra_js %}
+<script>
+  document.getElementById('btn-add-cart')?.addEventListener('click', function() {
+    const id = this.dataset.productId;
+    const qty = document.getElementById('pd-qty').value;
+    window.FlipMart.addToCart(id, qty);
+  });
+  document.getElementById('btn-wish-toggle')?.addEventListener('click', function() {
+    window.FlipMart.toggleWishlist(this.dataset.productId);
+  });
+  document.getElementById('review-form')?.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const fd = new FormData(this);
+    const body = Object.fromEntries(fd.entries());
+    body.rating = parseInt(body.rating, 10);
+    window.FlipMart.apiJson('/api/v1/reviews/', { method: 'POST', body: JSON.stringify(body) })
+      .then(() => { window.FlipMart.toast('Review submitted'); location.reload(); })
+      .catch(err => window.FlipMart.toast(err.message || 'Error', true));
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Cart — FlipMart{% endblock %}
+{% block content %}
+<h1 class="h3 mb-3">Shopping cart</h1>
+<div id="cart-root" class="card shadow-sm">
+  <div class="card-body">
+    <div class="text-center py-5" id="cart-loading">
+      <div class="spinner-border text-primary"></div>
+    </div>
+    <div id="cart-content" class="d-none"></div>
+  </div>
+</div>
+<a class="btn btn-success mt-3" href="{% url 'store:checkout' %}" id="checkout-link">Proceed to checkout</a>
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'js/cart_page.js' %}"></script>
+{% endblock %}

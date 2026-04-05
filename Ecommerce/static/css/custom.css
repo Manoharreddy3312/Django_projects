@@ -1,0 +1,9 @@
+.object-fit-cover {
+  object-fit: cover;
+}
+.product-card .stretched-link::after {
+  z-index: 1;
+}
+.navbar-brand {
+  letter-spacing: -0.02em;
+}

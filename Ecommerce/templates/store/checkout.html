@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Checkout — FlipMart{% endblock %}
+{% block content %}
+<h1 class="h3 mb-3">Checkout</h1>
+<div class="row g-4">
+  <div class="col-lg-5">
+    <h2 class="h5">Saved addresses</h2>
+    <div id="addr-list" class="mb-3"></div>
+    <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="collapse" data-bs-target="#newAddr">+ New address</button>
+    <div class="collapse mt-3" id="newAddr">
+      <form id="addr-form" class="card card-body">
+        {% csrf_token %}
+        <input class="form-control mb-2" name="full_name" placeholder="Full name" required>
+        <input class="form-control mb-2" name="phone" placeholder="Phone" required>
+        <input class="form-control mb-2" name="line1" placeholder="Address line 1" required>
+        <input class="form-control mb-2" name="line2" placeholder="Line 2">
+        <input class="form-control mb-2" name="city" placeholder="City" required>
+        <input class="form-control mb-2" name="state" placeholder="State" required>
+        <input class="form-control mb-2" name="postal_code" placeholder="PIN" required>
+        <input class="form-control mb-2" name="country" value="India">
+        <button type="submit" class="btn btn-primary">Save address</button>
+      </form>
+    </div>
+  </div>
+  <div class="col-lg-7">
+    <h2 class="h5">Payment method</h2>
+    <div class="btn-group mb-3" role="group">
+      <input type="radio" class="btn-check" name="pay-method" id="pm-rz" value="razorpay" checked autocomplete="off">
+      <label class="btn btn-outline-primary" for="pm-rz">Razorpay (card / UPI)</label>
+      <input type="radio" class="btn-check" name="pay-method" id="pm-bank" value="bank_transfer" autocomplete="off">
+      <label class="btn btn-outline-primary" for="pm-bank">Bank transfer</label>
+    </div>
+    <p class="text-muted small" id="pay-hint-rz">Pay securely with Razorpay (configure test keys in <code>.env</code>).</p>
+    <p class="text-muted small d-none" id="pay-hint-bank">Transfer the exact amount using the bank details below, then submit your UTR / reference.</p>
+    <button type="button" class="btn btn-success btn-lg" id="pay-btn" disabled>Continue to payment</button>
+
+    <div id="bank-panel" class="card border-primary mt-4 d-none">
+      <div class="card-header bg-primary text-white">Bank details</div>
+      <div class="card-body" id="bank-details-body">
+        <p class="text-muted small mb-0">Place an order to see transfer instructions.</p>
+      </div>
+      <div class="card-footer d-none" id="bank-utr-block">
+        <label class="form-label">Transaction reference / UTR</label>
+        <input type="text" class="form-control mb-2" id="bank-utr" placeholder="e.g. 12-digit UTR from bank app" maxlength="120">
+        <button type="button" class="btn btn-primary" id="bank-submit-ref">Submit reference</button>
+      </div>
+    </div>
+
+    <pre id="pay-debug" class="small bg-white border p-2 mt-3 d-none"></pre>
+  </div>
+</div>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+{% endblock %}
+{% block extra_js %}<script src="{% static 'js/checkout.js' %}"></script>{% endblock %}

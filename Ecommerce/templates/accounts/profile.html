@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Profile{% endblock %}
+{% block content %}
+<h1 class="h4 mb-3">Your profile</h1>
+<form method="post" class="card card-body shadow-sm" style="max-width:640px">
+  {% csrf_token %}
+  {% for field in form %}
+  <div class="mb-3"><label class="form-label">{{ field.label }}</label>{{ field }}</div>
+  {% endfor %}
+  <button class="btn btn-primary" type="submit">Save</button>
+</form>
+{% endblock %}

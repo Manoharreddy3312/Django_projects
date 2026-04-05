@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Wishlist — FlipMart{% endblock %}
+{% block content %}
+<h1 class="h3 mb-3">Wishlist</h1>
+<div id="wish-root" class="row g-3">
+  <div class="text-center py-5" id="wish-loading"><div class="spinner-border"></div></div>
+</div>
+{% endblock %}
+{% block extra_js %}<script src="{% static 'js/wishlist_page.js' %}"></script>{% endblock %}

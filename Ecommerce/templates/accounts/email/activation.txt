@@ -1,0 +1,7 @@
+Hi,
+
+Welcome to FlipMart. Activate your account by opening this link:
+
+{{ link }}
+
+If you did not register, ignore this email.

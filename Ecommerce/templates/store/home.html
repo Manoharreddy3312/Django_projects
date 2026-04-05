@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Home — FlipMart{% endblock %}
+{% block content %}
+<div id="hero-carousel" class="carousel slide mb-4 rounded overflow-hidden shadow" data-bs-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <div class="bg-gradient-primary text-white p-5 text-center" style="min-height:220px;background:linear-gradient(135deg,#0d6efd,#6610f2);">
+        <h2 class="display-6 fw-bold">Big Electronics Sale</h2>
+        <p class="mb-0">Up to 40% off on gadgets</p>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <div class="bg-gradient-warm text-white p-5 text-center" style="min-height:220px;background:linear-gradient(135deg,#fd7e14,#dc3545);">
+        <h2 class="display-6 fw-bold">Fashion & Lifestyle</h2>
+        <p class="mb-0">New arrivals every week</p>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <div class="text-white p-5 text-center" style="min-height:220px;background:linear-gradient(135deg,#198754,#20c997);">
+        <h2 class="display-6 fw-bold">Fast delivery</h2>
+        <p class="mb-0">Track every order in real time</p>
+      </div>
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#hero-carousel" data-bs-slide="prev"><span class="carousel-control-prev-icon"></span></button>
+  <button class="carousel-control-next" type="button" data-bs-target="#hero-carousel" data-bs-slide="next"><span class="carousel-control-next-icon"></span></button>
+</div>
+
+<h2 class="h4 mb-3">Shop by category</h2>
+<div class="row g-2 mb-5">
+  {% for c in categories %}
+  <div class="col-6 col-md-3 col-lg-2">
+    <a class="text-decoration-none" href="{% url 'store:product_list' %}?category={{ c.slug }}">
+      <div class="card h-100 border-0 shadow-sm text-center overflow-hidden">
+        {% if c.image %}
+        <img src="{{ c.image.url }}" class="w-100 object-fit-cover" style="height:88px" alt="">
+        {% else %}
+        <img src="{% static 'img/no-image.svg' %}" class="w-100 object-fit-cover bg-light" style="height:88px" alt="">
+        {% endif %}
+        <div class="small fw-semibold text-dark p-2">{{ c.name }}</div>
+      </div>
+    </a>
+  </div>
+  {% empty %}
+  <p>Add categories in admin.</p>
+  {% endfor %}
+</div>
+
+<h2 class="h4 mb-3">Featured products</h2>
+<div class="row g-3">
+  {% for p in featured %}
+  <div class="col-6 col-md-4 col-lg-3">
+    <div class="card h-100 shadow-sm product-card">
+      {% if p.main_image %}
+      <img src="{{ p.main_image.url }}" class="card-img-top object-fit-cover" style="height:180px" alt="">
+      {% else %}
+      <img src="{% static 'img/no-image.svg' %}" class="card-img-top object-fit-cover bg-light" style="height:180px" alt="">
+      {% endif %}
+      <div class="card-body d-flex flex-column">
+        <h3 class="h6 card-title">{{ p.name }}</h3>
+        <p class="text-primary fw-bold mb-2">₹ {{ p.price }}</p>
+        <a class="btn btn-sm btn-outline-primary mt-auto stretched-link" href="{% url 'store:product_detail' p.slug %}">View</a>
+      </div>
+    </div>
+  </div>
+  {% empty %}
+  <p>No products yet — add some in admin.</p>
+  {% endfor %}
+</div>
+{% endblock %}
