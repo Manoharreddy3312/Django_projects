@@ -8,6 +8,9 @@ This document describes the **FlipMart** eCommerce project: architecture, setup,
 |----------|---------|
 | [README.md](README.md) | Quick start, install, run server |
 | [API_ENDPOINTS.md](API_ENDPOINTS.md) | REST API path reference |
+| [UML_DIAGRAMS.md](UML_DIAGRAMS.md) | UML diagrams (Mermaid): models, component, sequences |
+| [COMPONENT_DIAGRAM.md](COMPONENT_DIAGRAM.md) | Component diagram + inventory |
+| [DEPLOYMENT_DIAGRAM.md](DEPLOYMENT_DIAGRAM.md) | Deployment diagram (dev + production) |
 | [.env.example](.env.example) | Environment variable template |
 
 ---

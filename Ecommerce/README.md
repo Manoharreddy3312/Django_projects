@@ -6,6 +6,9 @@ Production-style structure with PostgreSQL (optional), JWT APIs, Razorpay paymen
 
 - **[DOCUMENTATION.md](DOCUMENTATION.md)** — full project documentation (architecture, setup, auth, payments, admin, troubleshooting)
 - **[API_ENDPOINTS.md](API_ENDPOINTS.md)** — REST API reference
+- **[UML_DIAGRAMS.md](UML_DIAGRAMS.md)** — UML (Mermaid): class, component, deployment, sequences
+- **[COMPONENT_DIAGRAM.md](COMPONENT_DIAGRAM.md)** — component diagram + inventory table
+- **[DEPLOYMENT_DIAGRAM.md](DEPLOYMENT_DIAGRAM.md)** — UML deployment: dev vs production nodes
 
 ## 1. Prerequisites
 
