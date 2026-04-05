@@ -2,6 +2,11 @@
 
 Production-style structure with PostgreSQL (optional), JWT APIs, Razorpay payments, email flows, OTP login (email + Twilio SMS), Google OAuth (django-allauth), Bootstrap UI, and AJAX cart/wishlist/checkout.
 
+**Documentation**
+
+- **[DOCUMENTATION.md](DOCUMENTATION.md)** — full project documentation (architecture, setup, auth, payments, admin, troubleshooting)
+- **[API_ENDPOINTS.md](API_ENDPOINTS.md)** — REST API reference
+
 ## 1. Prerequisites
 
 - Python 3.11+ (tested with Django 6.x)
