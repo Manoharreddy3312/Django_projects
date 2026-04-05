@@ -123,3 +123,5 @@ flowchart TB
 - **GitHub / GitLab**: open this `.md` file (native Mermaid).
 - **VS Code**: Markdown preview with a Mermaid extension.
 - **Export PNG/SVG**: [mermaid.live](https://mermaid.live) — paste the fenced `mermaid` block.
+
+
