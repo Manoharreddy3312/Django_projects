@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>
+    {% if patient.profile_pic %}
+    <img src="{{ patient.profile_pic.url }}" width="60" height="60" class="rounded-circle me-2">
+    {% endif %}
+    Medical History: {{ patient.full_name }}
+</h2>
+<p><strong>Phone:</strong> {{ patient.phone }} | <strong>DOB:</strong> {{ patient.date_of_birth }}</p>
+
+<div class="mt-4">
+    {% for visit in history %}
+    <div class="card mb-3">
+        <div class="card-header">Visit on {{ visit.appointment_date }} with Dr. {{ visit.doctor.full_name }}</div>
+        <div class="card-body">
+            <p><strong>Reason:</strong> {{ visit.reason }}</p>
+            <p><strong>Prescription:</strong><br>
+            {{ visit.prescription|default:"No prescription recorded."|linebreaks }}</p>
+        </div>
+    </div>
+    {% empty %}
+    <p>No history found.</p>
+    {% endfor %}
+</div>
+<a href="{% url 'appointment_list' %}" class="btn btn-secondary">Back to Appointments</a>
+{% endblock %}

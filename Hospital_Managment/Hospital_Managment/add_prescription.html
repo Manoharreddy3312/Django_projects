@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Add Prescription for {{ appointment.patient.full_name }}</h2>
+<div class="card mt-3">
+    <div class="card-body">
+        <p><strong>Doctor:</strong> {{ appointment.doctor.full_name }}</p>
+        <p><strong>Reason:</strong> {{ appointment.reason }}</p>
+        
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="prescription" class="form-label">Prescription Details</label>
+                <textarea class="form-control" id="prescription" name="prescription" rows="5" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-success">Save Prescription & Complete Appointment</button>
+            <a href="{% url 'appointment_list' %}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

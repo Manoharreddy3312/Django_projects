@@ -1,0 +1,5 @@
+django==6.0.4
+djangorestframework
+Pillow
+twilio
+python-dotenv

@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Reports</h2>
+
+<div class="mt-4">
+    <h4>Today's Appointments</h4>
+    <table class="table">
+        <thead>
+            <tr><th>Patient</th><th>Doctor</th><th>Time</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+            {% for appt in daily_appointments %}
+            <tr>
+                <td>
+                    {% if appt.patient.profile_pic %}
+                    <img src="{{ appt.patient.profile_pic.url }}" width="25" height="25" class="rounded-circle me-1">
+                    {% endif %}
+                    {{ appt.patient }}
+                </td>
+                <td>
+                    {% if appt.doctor.profile_pic %}
+                    <img src="{{ appt.doctor.profile_pic.url }}" width="25" height="25" class="rounded-circle me-1">
+                    {% endif %}
+                    {{ appt.doctor }}
+                </td>
+                <td>{{ appt.appointment_time }}</td><td>{{ appt.status }}</td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="4">No appointments for today.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="mt-5">
+    <h4>Doctor Statistics</h4>
+    <ul class="list-group">
+        {% for doctor in doctor_stats %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+                {% if doctor.profile_pic %}
+                <img src="{{ doctor.profile_pic.url }}" width="30" height="30" class="rounded-circle me-2">
+                {% endif %}
+                {{ doctor.full_name }} ({{ doctor.specialization }})
+            </div>
+            <span class="badge bg-primary rounded-pill">{{ doctor.appointment_count }} total appointments</span>
+        </li>
+        {% empty %}
+        <li class="list-group-item">No doctors found.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
